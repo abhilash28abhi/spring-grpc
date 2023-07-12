@@ -1,0 +1,41 @@
+sourceSets {
+    main {
+        java {
+            srcDirs += srcDirs += 'src/main/proto_gen'
+        }
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.10.1:osx-x86_64' //added for mac with apple silicon
+    }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.25.0:osx-x86_64'
+        }
+    }
+    generateProtoTasks {
+        ofSourceSet('main').each { task ->
+            task.builtins {
+                java {
+                    outputSubDir = 'proto_gen'
+                }
+            }
+            task.plugins {
+                grpc {
+                    outputSubDir = 'proto_gen'
+                }
+            }
+        }
+    }
+    generatedFilesBaseDir = "$projectDir/src/"
+}
+
+task cleanProtoGen {
+    doFirst {
+        delete("$projectDir/src/main/proto_gen")
+    }
+}
+
+clean.dependsOn cleanProtoGen

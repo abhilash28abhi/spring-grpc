@@ -1,0 +1,13 @@
+pluginManagement {
+    plugins {
+        id 'org.springframework.boot' version "2.7.13"
+        id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    }
+}
+
+rootProject.name = 'spring-grpc'
+
+include ':calculator-proto'
+include ':calculator-service'
+include ':aggregator-service'
+// Add other module names as needed

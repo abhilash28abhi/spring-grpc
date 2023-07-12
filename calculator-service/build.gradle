@@ -1,0 +1,22 @@
+plugins {
+	id 'java'
+//	id 'org.springframework.boot'
+//	id 'io.spring.dependency-management'
+}
+
+group = 'calculator-service'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '1.8'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation group: 'net.devh', name: 'grpc-server-spring-boot-starter', version: '2.14.0.RELEASE'
+	implementation project(':calculator-proto')
+}
