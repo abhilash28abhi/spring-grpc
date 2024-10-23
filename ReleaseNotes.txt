@@ -24,3 +24,30 @@
 * fixed the file ([47edbee](https://github.com/abhilash28abhi/spring-grpc/commit/47edbee6d2c4329578472877fc25e9df5b6f08aa))
 * fixed the file ([68c6947](https://github.com/abhilash28abhi/spring-grpc/commit/68c6947a5ea159cc27a9cc2476bd908ad55db5b1))
 * second commit ([d7292f6](https://github.com/abhilash28abhi/spring-grpc/commit/d7292f65431cf5cfa1e0377a0972d7fb99b94e15))
+
+# 1.0.0 (2024-10-23)
+
+
+### Bug Fixes
+
+* added config json ([2677029](https://github.com/abhilash28abhi/spring-grpc/commit/26770297d197b400601a86423f24212cd1db32e3))
+* first commit ([9b07a26](https://github.com/abhilash28abhi/spring-grpc/commit/9b07a26b8153e1f21286efdc0780eef10b752370))
+* first commit ([d929568](https://github.com/abhilash28abhi/spring-grpc/commit/d9295686334324d74339964a18a351c82e04de56))
+* fixed the config file ([6efe4ce](https://github.com/abhilash28abhi/spring-grpc/commit/6efe4ce2f4531cdf66143c5aeda33013c229f57b))
+* fixed the config file ([fdbef48](https://github.com/abhilash28abhi/spring-grpc/commit/fdbef482df0390dc076725bd1b4febb79ac60b98))
+* fixed the config file ([bd4f7e8](https://github.com/abhilash28abhi/spring-grpc/commit/bd4f7e858fd3fe9a7e4239f4b971f57b55b513b0))
+* fixed the config file ([99c5373](https://github.com/abhilash28abhi/spring-grpc/commit/99c5373ed325998f96be016fee65ecf452667def))
+* fixed the file ([67e134f](https://github.com/abhilash28abhi/spring-grpc/commit/67e134f68c2fc8b0948179a5d4438cbb72173b90))
+* fixed the file ([98e93b7](https://github.com/abhilash28abhi/spring-grpc/commit/98e93b728bb0ae1b2f2cca10a4574b5c93e96090))
+* fixed the file ([3d9f469](https://github.com/abhilash28abhi/spring-grpc/commit/3d9f4693c04f5d0be01115f163c0c83b62033372))
+* fixed the file ([2bab755](https://github.com/abhilash28abhi/spring-grpc/commit/2bab75538583c12512e163c6cfad1199fb956dfb))
+* fixed the file ([5f1bf17](https://github.com/abhilash28abhi/spring-grpc/commit/5f1bf1793bca9259cbb58950861c329def0271bc))
+* fixed the file ([5e9899b](https://github.com/abhilash28abhi/spring-grpc/commit/5e9899b70bc64cb765aa3815367fe97234fec250))
+* fixed the file ([158a7c2](https://github.com/abhilash28abhi/spring-grpc/commit/158a7c288c94629b1358d3464e5d0a1b1a5fc1d5))
+* fixed the file ([3f39f1a](https://github.com/abhilash28abhi/spring-grpc/commit/3f39f1a15c4c09bc5910fbe9e3fda76d7db7b12d))
+* fixed the file ([53f92d9](https://github.com/abhilash28abhi/spring-grpc/commit/53f92d9e03a28eb4f5a9331746cd6359dc189959))
+* fixed the file ([0f044ea](https://github.com/abhilash28abhi/spring-grpc/commit/0f044eacd65723c0cec1f697bc472b0c0e1ac3fc))
+* fixed the file ([6d25ed2](https://github.com/abhilash28abhi/spring-grpc/commit/6d25ed2ac7bf5a5651be976cb3e837e8ad0bcbf7))
+* fixed the file ([47edbee](https://github.com/abhilash28abhi/spring-grpc/commit/47edbee6d2c4329578472877fc25e9df5b6f08aa))
+* fixed the file ([68c6947](https://github.com/abhilash28abhi/spring-grpc/commit/68c6947a5ea159cc27a9cc2476bd908ad55db5b1))
+* second commit ([d7292f6](https://github.com/abhilash28abhi/spring-grpc/commit/d7292f65431cf5cfa1e0377a0972d7fb99b94e15))
