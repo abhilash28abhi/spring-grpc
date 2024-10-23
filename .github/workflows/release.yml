@@ -12,11 +12,21 @@ jobs:
     steps:
       # Step 1: Checkout the code from the repository
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # Step 2: Use Docker to run Semantic Release
-                    
-      - name: Action For Semantic Release
-        uses: cycjimmy/semantic-release-action@v4.1.1
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.5.1
+
+      - name: Env-Variables
+        run: |
+          echo "GH_TOKEN=${{ secrets.GH_TOKEN }}" >> $GITHUB_ENV
+          export GH_TOKEN=${{ secrets.GH_TOKEN }}
+
+      - name: NPM Install
+        run: |
+          npm i
+          npm i -g semantic-release    
+
+      - name: Create Release
+        run: |
+          semantic-release
