@@ -17,16 +17,9 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.0.4
 
-      - name: Env-Variables
-        run: |
-          echo "GH_TOKEN=${{ secrets.GH_TOKEN }}" >> $GITHUB_ENV
-          export GH_TOKEN=${{ secrets.GH_TOKEN }}
+      - name: Install dependencies
+        run: npm install
 
-      - name: NPM Install
-        run: |
-          npm i
-          npm i -g semantic-release    
-
-      - name: Create Release
-        run: |
-          semantic-release
+      - name: Run Semantic Release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
