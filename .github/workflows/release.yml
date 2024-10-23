@@ -18,5 +18,6 @@ jobs:
         uses: actions/setup-node@v4.0.4
 
       - name: Run Semantic Release
+        uses: cycjimmy/semantic-release-action@v4.1.1
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
