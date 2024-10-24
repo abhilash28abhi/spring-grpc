@@ -1,3 +1,10 @@
+# [3.2.0](https://github.com/abhilash28abhi/spring-grpc/compare/v3.1.0...v3.2.0) (2024-10-24)
+
+
+### Features
+
+* new major feature added ([98510d0](https://github.com/abhilash28abhi/spring-grpc/commit/98510d035bddca9156e17646836995366dcfee10))
+
 # [3.1.0](https://github.com/abhilash28abhi/spring-grpc/compare/v3.0.3...v3.1.0) (2024-10-24)
 
 
