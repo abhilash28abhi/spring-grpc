@@ -1,5 +1,6 @@
 {
   "branches": ["main"],
+  "initialVersion": "3.1.0",
   "repositoryUrl": "https://github.com/abhilash28abhi/spring-grpc.git",
   "plugins": [
     "@semantic-release/commit-analyzer",
