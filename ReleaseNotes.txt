@@ -1,3 +1,15 @@
+# [3.0.0](https://github.com/abhilash28abhi/spring-grpc/compare/v2.0.0...v3.0.0) (2024-10-23)
+
+
+### Documentation
+
+* testing ([d4afc71](https://github.com/abhilash28abhi/spring-grpc/commit/d4afc7167dca2f7a58267ee0ab93c452a7cc3c33))
+
+
+### BREAKING CHANGES
+
+* new major feature added
+
 # [3.1.0] manual update
 
 # [2.0.0](https://github.com/abhilash28abhi/spring-grpc/compare/v1.2.0...v2.0.0) (2024-10-23)
