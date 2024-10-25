@@ -10,7 +10,7 @@ CURRENT_VERSION=$(grep "versionProp=" gradle.properties | cut -d'=' -f2)
 # Parse version into major, minor, and patch components
 IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
-COMMIT_MESSAGES=$(git log --pretty=%B -n)
+COMMIT_MESSAGES=$(git log --pretty=%B -n 20)
 echo "Total Commits: $(git rev-list --count HEAD)"
 echo "Recent Commit Messages: $COMMIT_MESSAGES"
 
