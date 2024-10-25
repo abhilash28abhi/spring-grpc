@@ -37,7 +37,7 @@ git commit -am "chore(release): $NEW_VERSION"
 git tag "v$NEW_VERSION"
 
 # Push changes and tags
-git push origin master --tags
+git push origin main --tags
 
 # Create a GitHub release
 curl -s -X POST https://api.github.com/repos/${{ github.repository }}/releases \
