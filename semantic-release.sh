@@ -6,7 +6,7 @@ get_latest_commit() {
     COMMIT_MESSAGES=$(git log --pretty=%B -n 10)  # Get the last 10 commit messages
 
     # Debug: print recent commit messages
-    echo "Recent Commit Messages:"
+    #echo "Recent Commit Messages:"
     #echo "$COMMIT_MESSAGES"
 
     # Loop through commit messages
@@ -35,6 +35,7 @@ IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
 # Call the function to get the latest commit and assign it
 LATEST_COMMIT=$(get_latest_commit)
+echo "Latest Commit: $LATEST_COMMIT"
 
 # Check if the latest commit is empty before proceeding
 if [[ -z "$LATEST_COMMIT" ]]; then

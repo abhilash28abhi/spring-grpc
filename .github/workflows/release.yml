@@ -20,15 +20,9 @@ jobs:
       - name: Make script executable
         run: chmod +x semantic-release.sh
 
-      - name: Debugging Info
-        run: |
-          echo "Current Directory: $(pwd)"
-          echo "Git Status:"
-          git status  
-
       # Step 3: Run the semantic release script
       - name: Run Semantic Release Script
-        run: bash ./semantic-release.sh
+        run: ./semantic-release.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
