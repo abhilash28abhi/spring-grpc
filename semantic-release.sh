@@ -12,8 +12,8 @@ IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
 # Function to get the latest non-merge commit message
 get_latest_commit() {
-  # Get the last commit messages
-    COMMIT_MESSAGES=$(git log --pretty=%B)
+    # Retrieve commit messages
+    COMMIT_MESSAGES=$(git log --pretty=%B -n 10)  # Get the last 10 commit messages
 
     # Debug: print recent commit messages
     echo "Recent Commit Messages:"
@@ -21,15 +21,15 @@ get_latest_commit() {
 
     # Loop through commit messages
     while IFS= read -r MESSAGE; do
-      if [[ "$MESSAGE" != "Merge"* ]]; then
-        # Found a valid commit message
+      # Check if the message starts with a valid Angular convention
+      if [[ "$MESSAGE" =~ ^(feat|fix|BREAKING CHANGE): ]]; then
         echo "$MESSAGE"  # Return the valid commit message
         return
       fi
     done <<< "$COMMIT_MESSAGES"
 
-    # If no valid commit message found
-    echo "No valid commit message found. Exiting."
+    # If no valid commit message was found
+    echo "No valid commit message found. Please use Angular commit message conventions."
     exit 1
 }
 
