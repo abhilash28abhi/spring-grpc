@@ -10,22 +10,10 @@ CURRENT_VERSION=$(grep "versionProp=" gradle.properties | cut -d'=' -f2)
 # Parse version into major, minor, and patch components
 IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
-# Check if inside a git repository
-if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
-    echo "Not inside a Git repository. Exiting."
-    exit 1
-fi
+COMMIT_MESSAGES=$(git log --pretty=%B -n)
+echo "Total Commits: $(git rev-list --count HEAD)"
+echo "Recent Commit Messages: $COMMIT_MESSAGES"
 
-# Get the total number of commits
-TOTAL_COMMITS=$(git rev-list --count HEAD)
-echo "Total Commits: $TOTAL_COMMITS"
-
-# Get the last 10 commit messages
-COMMIT_MESSAGES=$(git log --pretty=%B -n 10)
-
-# Debug: print recent commit messages
-echo "Recent Commit Messages:"
-echo "$COMMIT_MESSAGES"
 
 # Function to get the latest non-merge commit message
 get_latest_commit() {
