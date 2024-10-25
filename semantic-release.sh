@@ -12,30 +12,27 @@ IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
 # Function to get the latest non-merge commit message
 get_latest_commit() {
-  # Get the last few commit messages
-  commit_messages=$(git log --pretty=%B -n 5)
-  echo "Recent Commit Messages:"
-  echo "$commit_messages"
+  # Get the last two commit messages
+    COMMIT_MESSAGES=$(git log --pretty=%B -n 2)
 
-  # Get the latest commit message
-  LATEST_COMMIT=$(git log --pretty=%B -n 1)
-  echo "Latest Commit: $LATEST_COMMIT"
+    # Debug: print recent commit messages
+    echo "Recent Commit Messages:"
+    echo "$COMMIT_MESSAGES"
 
-  # Check if the latest commit is a merge commit
-  while [[ "$LATEST_COMMIT" == "Merge"* ]]; do
-    # Get the previous commit message
-    LATEST_COMMIT=$(git log --pretty=%B -n 2 | tail -n 1)
+    # Get the last commit message
+    LATEST_COMMIT=$(echo "$COMMIT_MESSAGES" | head -n 1)
+
+    # Check if the last commit is a merge commit
+    if [[ "$LATEST_COMMIT" == Merge* ]]; then
+      # If it's a merge, get the next commit message
+      LATEST_COMMIT=$(echo "$COMMIT_MESSAGES" | tail -n 1)
+    fi
+
+    # Debug: print the latest commit
+    echo "Latest Commit: $LATEST_COMMIT"
     echo "Latest Commit after checking for merge: $LATEST_COMMIT"
 
-    # Check for empty commit message to prevent infinite loop
-    if [[ -z "$LATEST_COMMIT" ]]; then
-      echo "No valid commit message found. Exiting."
-      exit 1
-    fi
-  done
-
-  # Return the latest valid commit message
-  echo "$LATEST_COMMIT"  # Use echo to return the value
+    echo "$LATEST_COMMIT"  # Return the latest commit message
 }
 
 # Call the function to get the latest commit and assign it
