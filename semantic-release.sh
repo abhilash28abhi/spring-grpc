@@ -12,6 +12,11 @@ IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
 # Get the latest commit message
 LATEST_COMMIT=$(git log -1 --pretty=%B)
+# Check if the latest commit is a merge commit
+if [[ "$LATEST_COMMIT" == Merge* ]]; then
+  # Get the first non-merge commit message
+  LATEST_COMMIT=$(git log --pretty=%B -n 2 | tail -n +2 | head -n 1)
+fi
 # echo "Latest Commit: $LATEST_COMMIT"
 
 # Convert the latest commit message to lower case for case insensitive matching
