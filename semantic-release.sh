@@ -19,14 +19,13 @@ echo "Latest Commit: $LATEST_COMMIT"
 echo "Latest Merge Commit Message: $MERGE_COMMIT_MESSAGE"
 
 # Check if the latest commit is a merge commit
-if [[ "$LATEST_COMMIT" == Merge* ]]; then
+if [[ "$LATEST_COMMIT" == "Merge"* ]]; then
   # Get the last two commit messages, skipping the merge message
   LATEST_COMMIT=$(git log --pretty=%B -n 2 | tail -n 1)
 
   # Debug: print the retrieved commit message after merge check
   echo "Latest Commit after checking for merge: $LATEST_COMMIT"
 fi
-
 
 # Convert the latest commit message to lower case for case insensitive matching
 LATEST_COMMIT_LOWER=$(echo "$LATEST_COMMIT" | tr '[:upper:]' '[:lower:]')
