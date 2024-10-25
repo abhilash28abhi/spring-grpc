@@ -24,11 +24,11 @@ if [[ "$LATEST_COMMIT_LOWER" == *"breaking change"* ]]; then
   VERSION_PARTS[1]=0
   VERSION_PARTS[2]=0
   # echo "Major version incremented."
-elif [[ "$LATEST_COMMIT_LOWER" == feat* ]]; then
+elif [[ "$LATEST_COMMIT_LOWER" == "feat"* ]]; then
   VERSION_PARTS[1]=$((VERSION_PARTS[1]+1))
   VERSION_PARTS[2]=0
   # echo "Minor version incremented."
-elif [[ "$LATEST_COMMIT_LOWER" == fix* ]]; then
+elif [[ "$LATEST_COMMIT_LOWER" == "fix"* ]]; then
   VERSION_PARTS[2]=$((VERSION_PARTS[2]+1))
   # echo "Patch version incremented."
 else
