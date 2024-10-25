@@ -21,14 +21,14 @@ get_latest_commit() {
     #echo "Recent Commit Messages:"
     #echo "$COMMIT_MESSAGES"
 
-    # Iterate through each commit message
-    for MESSAGE in "${COMMIT_MESSAGES[@]}"; do
+    # Loop through commit messages
+    while IFS= read -r MESSAGE; do
         # Check if the message starts with a valid Angular convention
         if [[ "$MESSAGE" =~ ^(feat|fix|BREAKING\ CHANGE): ]]; then
-            echo "$MESSAGE"  # Print the valid commit message
-            return  # Exit the function after finding the first valid commit message
+            echo "$MESSAGE"  # Return the valid commit message
+            return  # Exit function after finding the first valid commit message
         fi
-    done
+    done <<< "$COMMIT_MESSAGES"
 
     # If no valid commit message was found
     echo "No valid commit message found. Please use Angular commit message conventions."
