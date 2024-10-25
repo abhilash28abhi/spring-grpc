@@ -22,9 +22,9 @@ get_latest_commit() {
     # Loop through commit messages
     while IFS= read -r MESSAGE; do
       # Check if the message starts with a valid Angular convention
-      if [[ "$MESSAGE" =~ ^(feat|fix|BREAKING CHANGE): ]]; then
+      if [[ "$MESSAGE" =~ ^(feat|fix|BREAKING\ CHANGE): ]]; then
         echo "$MESSAGE"  # Return the valid commit message
-        return
+        return  # Exit function after finding the first valid commit message
       fi
     done <<< "$COMMIT_MESSAGES"
 
@@ -34,7 +34,7 @@ get_latest_commit() {
 }
 
 # Call the function to get the latest commit and assign it
-get_latest_commit $LATEST_COMMIT
+LATEST_COMMIT=$(  get_latest_commit )
 
 # Check if the latest commit is empty before proceeding
 if [[ -z "$LATEST_COMMIT" ]]; then
