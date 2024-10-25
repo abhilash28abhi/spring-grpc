@@ -11,7 +11,7 @@ CURRENT_VERSION=$(grep "versionProp=" gradle.properties | cut -d'=' -f2)
 IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
 # Function to get the latest non-merge commit message
-function get_latest_commit() {
+get_latest_commit() {
   # Get the last few commit messages
     commit_messages=$(git log --pretty=%B -n 5)
     echo "Recent Commit Messages:"
@@ -40,7 +40,8 @@ function get_latest_commit() {
 }
 
 # Get the latest valid commit message
-LATEST_COMMIT=get_latest_commit
+LATEST_COMMIT=$get_latest_commit
+
 
 # Convert the latest commit message to lower case for case insensitive matching
 LATEST_COMMIT_LOWER=$(echo "$LATEST_COMMIT" | tr '[:upper:]' '[:lower:]')
