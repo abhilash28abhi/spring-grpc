@@ -12,7 +12,7 @@ IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
 # Get the latest commit message
 LATEST_COMMIT=$(git log -1 --pretty=%B)
-# echo "Latest Commit: $LATEST_COMMIT"
+echo "Latest Commit: $LATEST_COMMIT"
 
 # Convert the latest commit message to lower case for case insensitive matching
 LATEST_COMMIT_LOWER=$(echo "$LATEST_COMMIT" | tr '[:upper:]' '[:lower:]')
