@@ -11,7 +11,6 @@ CURRENT_VERSION=$(grep "versionProp=" gradle.properties | cut -d'=' -f2)
 IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
 # Function to get the latest non-merge commit message
-LATEST_COMMIT=""
 get_latest_commit() {
   # Get the last few commit messages
   commit_messages=$(git log --pretty=%B -n 5)
@@ -40,7 +39,7 @@ get_latest_commit() {
 }
 
 # Call the function to get the latest commit and assign it
-LATEST_COMMIT=$(get_latest_commit)
+OUTPUT=$(get_latest_commit)
 
 # Check if the latest commit is empty before proceeding
 if [[ -z "$LATEST_COMMIT" ]]; then
