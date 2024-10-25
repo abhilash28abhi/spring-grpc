@@ -19,17 +19,22 @@ IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 # Function to get the last valid commit message
 get_latest_valid_commit_message() {
   local commit_message
-  commit_message=$(git log --pretty=%B --no-merges -n 1)
+  # Check the last few commits for a valid message
+  for commit in $(git log --pretty=format:"%h" --no-merges -n 10); do
+    commit_message=$(git log -1 --pretty=%B "$commit")
+    # Convert to lowercase for case insensitive matching
+    commit_message_lower=$(echo "$commit_message" | tr '[:upper:]' '[:lower:]')
 
-  if [ -z "$commit_message" ]; then
-    echo "No valid commit message found."
-    return 1
-  fi
+    # Check if it matches the Angular conventions
+    if [[ "$commit_message_lower" == *"breaking change"* || "$commit_message_lower" == feat* || "$commit_message_lower" == fix* ]]; then
+      echo "$commit_message"
+      return 0
+    fi
+  done
 
-  # Convert to lowercase for case insensitive matching
-  echo "$commit_message" | tr '[:upper:]' '[:lower:]'
+  echo "No valid commit message found."
+  return 1
 }
-
 
 # Get the latest commit messages, including the last non-merge commit if applicable
 LATEST_COMMIT=$(git log --pretty=%B -n 1)
