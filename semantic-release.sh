@@ -22,7 +22,7 @@ get_latest_commit() {
   echo "Latest Commit: $LATEST_COMMIT"
 
   # Check if the latest commit is a merge commit
-  while [[ "$LATEST_COMMIT" == Merge* ]]; do
+  while [[ "$LATEST_COMMIT" == "Merge"* ]]; do
     # Get the previous commit message
     LATEST_COMMIT=$(git log --pretty=%B -n 2 | tail -n 1)
     echo "Latest Commit after checking for merge: $LATEST_COMMIT"
