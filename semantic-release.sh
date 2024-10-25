@@ -10,23 +10,13 @@ CURRENT_VERSION=$(grep "versionProp=" gradle.properties | cut -d'=' -f2)
 # Parse version into major, minor, and patch components
 IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
-# Get the latest non-merge commit message
-LATEST_COMMIT=$(git log --no-merges -n 1 --pretty=%B)
-
-# Debug: print the latest commit message
-echo "Latest Commit: $LATEST_COMMIT"
-
-# If the latest commit message is empty, fetch the last two commits to find a valid message
-if [[ -z "$LATEST_COMMIT" ]]; then
-  echo "Latest commit message is empty. Fetching last two commits."
-  LATEST_COMMIT=$(git log --no-merges -n 2 --pretty=%B | tail -n 1)
-fi
-
-# Debug: print the retrieved commit message
-echo "Retrieved Commit: $LATEST_COMMIT"
+# Get the latest commit message
+LATEST_COMMIT=$(git log -1 --pretty=%B)
+# echo "Latest Commit: $LATEST_COMMIT"
 
 # Convert the latest commit message to lower case for case insensitive matching
 LATEST_COMMIT_LOWER=$(echo "$LATEST_COMMIT" | tr '[:upper:]' '[:lower:]')
+# echo "Latest Commit (Lower): $LATEST_COMMIT_LOWER"  # Debug: Show latest commit in lowercase
 
 # Determine version bump based on the commit message
 if [[ "$LATEST_COMMIT_LOWER" == *"breaking change"* ]]; then
@@ -53,19 +43,19 @@ NEW_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.${VERSION_PARTS[2]}"
 # Update the version in gradle.properties
 sed -i "s/versionProp=$CURRENT_VERSION/versionProp=$NEW_VERSION/" gradle.properties
 
-# Generate changelog from commit messages, skipping merge commits
+# Generate changelog from commit messages
 if git rev-parse --quiet --verify refs/tags/* > /dev/null; then
   # If there are tags, generate changelog from the latest tag to HEAD
-  CHANGELOG=$(git log --no-merges $(git describe --tags --abbrev=0)..HEAD --pretty=format:"* %s" | sed '/^$/d')
+  CHANGELOG=$(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"* %s" | sed '/^$/d')
 else
   # If no tags exist, generate changelog from the beginning to HEAD
-  CHANGELOG=$(git log --no-merges --pretty=format:"* %s" | sed '/^$/d')
+  CHANGELOG=$(git log --pretty=format:"* %s" | sed '/^$/d')
 fi
 
 if [ -z "$CHANGELOG" ]; then
   CHANGELOG="No changes."
 fi
-# echo "Changelog: $CHANGELOG"  # Debug: Show changelog
+echo "Changelog: $CHANGELOG"  # Debug: Show changelog
 
 # Commit and tag the new version
 git config user.name "github-actions[bot]"
