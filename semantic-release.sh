@@ -30,6 +30,12 @@ NEW_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.${VERSION_PARTS[2]}"
 # Update the version in gradle.properties
 sed -i "s/version=$CURRENT_VERSION/version=$NEW_VERSION/" gradle.properties
 
+# Generate changelog from commit messages
+CHANGELOG=$(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"* %s" | sed '/^$/d')
+if [ -z "$CHANGELOG" ]; then
+  CHANGELOG="No changes."
+fi
+
 # Commit and tag the new version
 git config user.name "github-actions[bot]"
 git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -39,8 +45,8 @@ git tag "v$NEW_VERSION"
 # Push changes and tags
 git push origin main --tags
 
-# Create a GitHub release
+# Create a GitHub release with release notes
 curl -s -X POST https://api.github.com/repos/${GITHUB_REPOSITORY}/releases \
   -H "Authorization: token $GITHUB_TOKEN" \
   -H "Content-Type: application/json" \
-  -d "{\"tag_name\": \"v$NEW_VERSION\", \"name\": \"v$NEW_VERSION\", \"body\": \"Release $NEW_VERSION\"}"
+  -d "{\"tag_name\": \"v$NEW_VERSION\", \"name\": \"v$NEW_VERSION\", \"body\": \"## Changes\n\n$CHANGELOG\"}"
