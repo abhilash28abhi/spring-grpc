@@ -12,39 +12,43 @@ IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
 # Function to get the latest non-merge commit message
 get_latest_commit() {
-  echo "Entered"
   # Get the last few commit messages
-    commit_messages=$(git log --pretty=%B -n 5)
-    echo "Recent Commit Messages:"
-    echo "$commit_messages"
+  commit_messages=$(git log --pretty=%B -n 5)
+  echo "Recent Commit Messages:"
+  echo "$commit_messages"
 
-    # Get the latest commit message
-    LATEST_COMMIT=$(git log --pretty=%B -n 1)
-    # Debug: print the latest commit message
-    echo "Latest Commit: $LATEST_COMMIT"
+  # Get the latest commit message
+  LATEST_COMMIT=$(git log --pretty=%B -n 1)
+  echo "Latest Commit: $LATEST_COMMIT"
 
-    # Check if the latest commit is a merge commit
-    while [[ "$LATEST_COMMIT" == "Merge"* ]]; do
-      # Get the previous commit message
-      LATEST_COMMIT=$(git log --pretty=%B -n 2 | tail -n 1)
-      echo "Latest Commit after checking for merge: $LATEST_COMMIT"
+  # Check if the latest commit is a merge commit
+  while [[ "$LATEST_COMMIT" == Merge* ]]; do
+    # Get the previous commit message
+    LATEST_COMMIT=$(git log --pretty=%B -n 2 | tail -n 1)
+    echo "Latest Commit after checking for merge: $LATEST_COMMIT"
 
-      # Break if we have gone through a set number of commits (to prevent infinite loop)
-      if [[ -z "$LATEST_COMMIT" ]]; then
-        echo "No valid commit message found. Exiting."
-        exit 1
-      fi
-    done
+    # Check for empty commit message to prevent infinite loop
+    if [[ -z "$LATEST_COMMIT" ]]; then
+      echo "No valid commit message found. Exiting."
+      exit 1
+    fi
+  done
 
-    # Return the latest valid commit message
-    echo "$LATEST_COMMIT"
+  # Return the latest valid commit message
+  echo "$LATEST_COMMIT"  # Use echo to return the value
 }
 
-# Get the latest valid commit message
-get_latest_commit
+# Call the function to get the latest commit and assign it
+LATEST_COMMIT=$(get_latest_commit)
+
+# Check if the latest commit is empty before proceeding
+if [[ -z "$LATEST_COMMIT" ]]; then
+  echo "No valid commit message found. Please use Angular commit message conventions."
+  exit 1
+fi
 
 # Convert the latest commit message to lower case for case insensitive matching
-LATEST_COMMIT_LOWER=$(echo "$LATEST_COMMIT_RES" | tr '[:upper:]' '[:lower:]')
+LATEST_COMMIT_LOWER=$(echo "$LATEST_COMMIT" | tr '[:upper:]' '[:lower:]')
 # echo "Latest Commit (Lower): $LATEST_COMMIT_LOWER"  # Debug: Show latest commit in lowercase
 
 # Determine version bump based on the commit message
