@@ -5,7 +5,7 @@ set -e  # Stop execution on error
 
 # Load the current version from gradle.properties
 CURRENT_VERSION=$(grep "versionProp=" gradle.properties | cut -d'=' -f2)
-echo "Current Version: $CURRENT_VERSION"
+# echo "Current Version: $CURRENT_VERSION"
 
 # Parse version into major, minor, and patch components
 IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
@@ -38,9 +38,9 @@ get_latest_commit() {
     # Return the latest valid commit message
     echo "$LATEST_COMMIT"
 }
-
+echo "calling function"
 # Get the latest valid commit message
-LATEST_COMMIT=$get_latest_commit
+LATEST_COMMIT=$(get_latest_commit)
 
 # Convert the latest commit message to lower case for case insensitive matching
 LATEST_COMMIT_LOWER=$(echo "$LATEST_COMMIT" | tr '[:upper:]' '[:lower:]')
