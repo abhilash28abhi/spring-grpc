@@ -14,10 +14,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Grant execute permission to the script
+      # Step 2: Grant execute permission to the script
       - name: Make script executable
         run: chmod +x semantic-release.sh
 
+      # Step 3: Run the semantic release script
       - name: Run Semantic Release Script
         run: ./semantic-release.sh
         env:
