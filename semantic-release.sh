@@ -14,6 +14,8 @@ IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 get_latest_commit() {
     # Retrieve commit messages
     COMMIT_MESSAGES=$(git log --pretty=%B -n 10)  # Get the last 10 commit messages
+    # Debug: print the number of recent commit messages
+    echo "Total Recent Commit Messages: $(echo "$COMMIT_MESSAGES" | wc -l)"
 
     # Debug: print recent commit messages
     #echo "Recent Commit Messages:"
@@ -23,7 +25,7 @@ get_latest_commit() {
     while IFS= read -r MESSAGE; do
       # Check if the message starts with a valid Angular convention
       if [[ "$MESSAGE" =~ ^(feat|fix|BREAKING\ CHANGE): ]]; then
-        #echo "$MESSAGE"  # Return the valid commit message
+        echo "$MESSAGE"  # Return the valid commit message
         return  # Exit function after finding the first valid commit message
       fi
     done <<< "$COMMIT_MESSAGES"
