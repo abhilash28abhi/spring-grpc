@@ -14,7 +14,6 @@ IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 get_latest_commit() {
     # Retrieve commit messages
     COMMIT_MESSAGES=$(git log --pretty=%B -n 10)  # Get the last 10 commit messages
-    VALID_COMMIT_MESSAGE=""
     # Debug: print the number of recent commit messages
     #echo "Total Recent Commit Messages: $(echo "$COMMIT_MESSAGES" | wc -l)"
 
@@ -22,23 +21,18 @@ get_latest_commit() {
     #echo "Recent Commit Messages:"
     #echo "$COMMIT_MESSAGES"
 
-    # Loop through commit messages
-    while IFS= read -r MESSAGE; do
+    # Iterate through each commit message
+    for MESSAGE in "${COMMIT_MESSAGES[@]}"; do
         # Check if the message starts with a valid Angular convention
         if [[ "$MESSAGE" =~ ^(feat|fix|BREAKING\ CHANGE): ]]; then
-            VALID_COMMIT_MESSAGE="$MESSAGE"  # Store the valid commit message
-            break  # Exit the loop once we find a valid message
+            echo "$MESSAGE"  # Print the valid commit message
+            return  # Exit the function after finding the first valid commit message
         fi
-    done <<< "$COMMIT_MESSAGES"
+    done
 
-    # If a valid commit message was found, echo it; otherwise, print an error message
-    if [[ -n "$VALID_COMMIT_MESSAGE" ]]; then
-        echo "$VALID_COMMIT_MESSAGE"
-        return 0  # Indicate success
-    else
-        echo "No valid commit message found. Please use Angular commit message conventions."
-        exit 1
-    fi
+    # If no valid commit message was found
+    echo "No valid commit message found. Please use Angular commit message conventions."
+    exit 1
 }
 
 # Call the function to get the latest commit and assign it
