@@ -35,7 +35,7 @@ get_latest_commit() {
 
 # Call the function to get the latest commit and assign it
 LATEST_COMMIT=$(get_latest_commit)
-#echo "Latest Commit: $LATEST_COMMIT"
+echo "Latest Commit: $LATEST_COMMIT" #Don't comment this line else the function never gets called
 
 # Check if the latest commit is empty before proceeding
 if [[ -z "$LATEST_COMMIT" ]]; then
