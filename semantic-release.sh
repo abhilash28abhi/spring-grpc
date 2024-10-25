@@ -4,37 +4,11 @@ set -e  # Stop execution on error
 # set -x  # Enable debugging (uncomment for debugging)
 
 # Load the current version from gradle.properties
-if ! grep -q "versionProp=" gradle.properties; then
-  echo "Error: versionProp not found in gradle.properties."
-  exit 1
-fi
-
-# Load the current version from gradle.properties
 CURRENT_VERSION=$(grep "versionProp=" gradle.properties | cut -d'=' -f2)
 # echo "Current Version: $CURRENT_VERSION"
 
 # Parse version into major, minor, and patch components
 IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
-
-# Function to get the last valid commit message
-get_latest_valid_commit_message() {
-  local commit_message
-  # Check the last few commits for a valid message
-  for commit in $(git log --pretty=format:"%h" --no-merges -n 10); do
-    commit_message=$(git log -1 --pretty=%B "$commit")
-    # Convert to lowercase for case insensitive matching
-    commit_message_lower=$(echo "$commit_message" | tr '[:upper:]' '[:lower:]')
-
-    # Check if it matches the Angular conventions
-    if [[ "$commit_message_lower" == *"breaking change"* || "$commit_message_lower" == feat* || "$commit_message_lower" == fix* ]]; then
-      echo "$commit_message"
-      return 0
-    fi
-  done
-
-  echo "No valid commit message found."
-  return 1
-}
 
 # Get the latest commit messages, including the last non-merge commit if applicable
 LATEST_COMMIT=$(git log --pretty=%B -n 1)
@@ -44,13 +18,14 @@ MERGE_COMMIT_MESSAGE=$(git log --merges -n 1 --pretty=%B)
 echo "Latest Commit: $LATEST_COMMIT"
 echo "Latest Merge Commit Message: $MERGE_COMMIT_MESSAGE"
 
+# Debug: List the last few commits for inspection
+echo "Last few commits:"
+git log --pretty=format:"%h %s" -n 5
+
 # Check if the latest commit is a merge commit
 if [[ "$LATEST_COMMIT" == "Merge"* ]]; then
-  # Get the last valid non-merge commit message
-  LATEST_COMMIT=$(get_latest_valid_commit_message) || {
-    echo "No valid commit message found after merge."
-    exit 1
-  }
+  # Get the last two commit messages, skipping the merge message
+  LATEST_COMMIT=$(git log --pretty=%B -n 2 | tail -n 1)
 
   # Debug: print the retrieved commit message after merge check
   echo "Latest Commit after checking for merge: $LATEST_COMMIT"
@@ -97,7 +72,7 @@ fi
 if [ -z "$CHANGELOG" ]; then
   CHANGELOG="No changes."
 fi
-#echo "Changelog: $CHANGELOG"  # Debug: Show changelog
+echo "Changelog: $CHANGELOG"  # Debug: Show changelog
 
 # Commit and tag the new version
 git config user.name "github-actions[bot]"
