@@ -10,26 +10,11 @@ CURRENT_VERSION=$(grep "versionProp=" gradle.properties | cut -d'=' -f2)
 # Parse version into major, minor, and patch components
 IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
-# Get the latest commit messages, including the last non-merge commit if applicable
-LATEST_COMMIT=$(git log --pretty=%B -n 1)
-MERGE_COMMIT_MESSAGE=$(git log --merges -n 1 --pretty=%B)
+# Get the latest non-merge commit message
+LATEST_COMMIT=$(git log --no-merges -1 --pretty=%B)
 
-# Debug: print the latest commit messages
+# Debug: print the latest commit message
 echo "Latest Commit: $LATEST_COMMIT"
-echo "Latest Merge Commit Message: $MERGE_COMMIT_MESSAGE"
-
-# Debug: List the last few commits for inspection
-echo "Last few commits:"
-git log --pretty=format:"%h %s" -n 5
-
-# Check if the latest commit is a merge commit
-if [[ "$LATEST_COMMIT" == "Merge"* ]]; then
-  # Get the last two commit messages, skipping the merge message
-  LATEST_COMMIT=$(git log --pretty=%B -n 2 | tail -n 1)
-
-  # Debug: print the retrieved commit message after merge check
-  echo "Latest Commit after checking for merge: $LATEST_COMMIT"
-fi
 
 # Convert the latest commit message to lower case for case insensitive matching
 LATEST_COMMIT_LOWER=$(echo "$LATEST_COMMIT" | tr '[:upper:]' '[:lower:]')
@@ -63,16 +48,16 @@ sed -i "s/versionProp=$CURRENT_VERSION/versionProp=$NEW_VERSION/" gradle.propert
 # Generate changelog from commit messages
 if git rev-parse --quiet --verify refs/tags/* > /dev/null; then
   # If there are tags, generate changelog from the latest tag to HEAD
-  CHANGELOG=$(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"* %s" | sed '/^$/d')
+  CHANGELOG=$(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"* %s" --no-merges | sed '/^$/d')
 else
   # If no tags exist, generate changelog from the beginning to HEAD
-  CHANGELOG=$(git log --pretty=format:"* %s" | sed '/^$/d')
+  CHANGELOG=$(git log --pretty=format:"* %s" --no-merges | sed '/^$/d')
 fi
 
 if [ -z "$CHANGELOG" ]; then
   CHANGELOG="No changes."
 fi
-echo "Changelog: $CHANGELOG"  # Debug: Show changelog
+# echo "Changelog: $CHANGELOG"  # Debug: Show changelog
 
 # Commit and tag the new version
 git config user.name "github-actions[bot]"
