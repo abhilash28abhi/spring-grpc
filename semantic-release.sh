@@ -26,7 +26,7 @@ get_latest_commit() {
         # Check if the message starts with a valid Angular convention
         if [[ "$MESSAGE" =~ ^(feat|fix|BREAKING\ CHANGE): ]]; then
             echo "$MESSAGE"  # Return the valid commit message
-            return  # Exit function after finding the first valid commit message
+            return 0 # Exit function after finding the first valid commit message
         fi
     done <<< "$COMMIT_MESSAGES"
 
