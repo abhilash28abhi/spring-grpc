@@ -22,7 +22,7 @@ jobs:
 
       # Step 3: Run the semantic release script
       - name: Run Semantic Release Script
-        run: ./semantic-release.sh
+        run: bash ./semantic-release.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
