@@ -10,11 +10,20 @@ CURRENT_VERSION=$(grep "versionProp=" gradle.properties | cut -d'=' -f2)
 # Parse version into major, minor, and patch components
 IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
-# Get the latest commit messages, explicitly ignoring merge commits
+# Get the latest non-merge commit message
 LATEST_COMMIT=$(git log --no-merges -n 1 --pretty=%B)
 
-# Debug: print the latest commit messages
+# Debug: print the latest commit message
 echo "Latest Commit: $LATEST_COMMIT"
+
+# If the latest commit message is empty, fetch the last two commits to find a valid message
+if [[ -z "$LATEST_COMMIT" ]]; then
+  echo "Latest commit message is empty. Fetching last two commits."
+  LATEST_COMMIT=$(git log --no-merges -n 2 --pretty=%B | tail -n 1)
+fi
+
+# Debug: print the retrieved commit message
+echo "Retrieved Commit: $LATEST_COMMIT"
 
 # Convert the latest commit message to lower case for case insensitive matching
 LATEST_COMMIT_LOWER=$(echo "$LATEST_COMMIT" | tr '[:upper:]' '[:lower:]')
@@ -56,7 +65,7 @@ fi
 if [ -z "$CHANGELOG" ]; then
   CHANGELOG="No changes."
 fi
-#echo "Changelog: $CHANGELOG"  # Debug: Show changelog
+# echo "Changelog: $CHANGELOG"  # Debug: Show changelog
 
 # Commit and tag the new version
 git config user.name "github-actions[bot]"
