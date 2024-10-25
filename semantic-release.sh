@@ -41,7 +41,7 @@ get_latest_commit() {
 }
 
 # Get the latest valid commit message
-LATEST_COMMIT_RES=get_latest_commit
+get_latest_commit
 
 # Convert the latest commit message to lower case for case insensitive matching
 LATEST_COMMIT_LOWER=$(echo "$LATEST_COMMIT_RES" | tr '[:upper:]' '[:lower:]')
