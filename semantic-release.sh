@@ -12,7 +12,7 @@ IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
 # Function to get the latest non-merge commit message
 get_latest_commit() {
-  echo "Entering get_latest_commit function"
+  echo "Entered"
   # Get the last few commit messages
     commit_messages=$(git log --pretty=%B -n 5)
     echo "Recent Commit Messages:"
@@ -41,10 +41,10 @@ get_latest_commit() {
 }
 
 # Get the latest valid commit message
-LATEST_COMMIT=$(get_latest_commit)
+LATEST_COMMIT_RES=get_latest_commit
 
 # Convert the latest commit message to lower case for case insensitive matching
-LATEST_COMMIT_LOWER=$(echo "$LATEST_COMMIT" | tr '[:upper:]' '[:lower:]')
+LATEST_COMMIT_LOWER=$(echo "$LATEST_COMMIT_RES" | tr '[:upper:]' '[:lower:]')
 # echo "Latest Commit (Lower): $LATEST_COMMIT_LOWER"  # Debug: Show latest commit in lowercase
 
 # Determine version bump based on the commit message
