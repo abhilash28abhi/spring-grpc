@@ -10,9 +10,32 @@ CURRENT_VERSION=$(grep "versionProp=" gradle.properties | cut -d'=' -f2)
 # Parse version into major, minor, and patch components
 IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
-# Get the latest commit message
-LATEST_COMMIT=$(git log -1 --pretty=%B)
-# echo "Latest Commit: $LATEST_COMMIT"
+# Function to get the latest non-merge commit message
+get_latest_commit() {
+  # Get the latest commit message
+  LATEST_COMMIT=$(git log --pretty=%B -n 1)
+  # Debug: print the latest commit message
+  echo "Latest Commit: $LATEST_COMMIT"
+
+  # Check if the latest commit is a merge commit
+  while [[ "$LATEST_COMMIT" == Merge* ]]; do
+    # Get the previous commit message
+    LATEST_COMMIT=$(git log --pretty=%B -n 2 | tail -n 1)
+    echo "Latest Commit after checking for merge: $LATEST_COMMIT"
+
+    # Break if we have gone through a set number of commits (to prevent infinite loop)
+    if [[ -z "$LATEST_COMMIT" ]]; then
+      echo "No valid commit message found. Exiting."
+      exit 1
+    fi
+  done
+
+  # Return the latest valid commit message
+  echo "$LATEST_COMMIT"
+}
+
+# Get the latest valid commit message
+LATEST_COMMIT=$(get_latest_commit)
 
 # Convert the latest commit message to lower case for case insensitive matching
 LATEST_COMMIT_LOWER=$(echo "$LATEST_COMMIT" | tr '[:upper:]' '[:lower:]')
