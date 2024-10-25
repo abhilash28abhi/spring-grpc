@@ -10,6 +10,23 @@ CURRENT_VERSION=$(grep "versionProp=" gradle.properties | cut -d'=' -f2)
 # Parse version into major, minor, and patch components
 IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
+# Check if inside a git repository
+if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+    echo "Not inside a Git repository. Exiting."
+    exit 1
+fi
+
+# Get the total number of commits
+TOTAL_COMMITS=$(git rev-list --count HEAD)
+echo "Total Commits: $TOTAL_COMMITS"
+
+# Get the last 10 commit messages
+COMMIT_MESSAGES=$(git log --pretty=%B -n 10)
+
+# Debug: print recent commit messages
+echo "Recent Commit Messages:"
+echo "$COMMIT_MESSAGES"
+
 # Function to get the latest non-merge commit message
 get_latest_commit() {
     # Retrieve commit messages
@@ -19,18 +36,18 @@ get_latest_commit() {
     echo "Recent Commit Messages:"
     echo "$COMMIT_MESSAGES"
 
-#    # Loop through commit messages
-#    while IFS= read -r MESSAGE; do
-#      # Check if the message starts with a valid Angular convention
-#      if [[ "$MESSAGE" =~ ^(feat|fix|BREAKING CHANGE): ]]; then
-#        echo "$MESSAGE"  # Return the valid commit message
-#        return
-#      fi
-#    done <<< "$COMMIT_MESSAGES"
-#
-#    # If no valid commit message was found
-#    echo "No valid commit message found. Please use Angular commit message conventions."
-#    exit 1
+    # Loop through commit messages
+    while IFS= read -r MESSAGE; do
+      # Check if the message starts with a valid Angular convention
+      if [[ "$MESSAGE" =~ ^(feat|fix|BREAKING CHANGE): ]]; then
+        echo "$MESSAGE"  # Return the valid commit message
+        return
+      fi
+    done <<< "$COMMIT_MESSAGES"
+
+    # If no valid commit message was found
+    echo "No valid commit message found. Please use Angular commit message conventions."
+    exit 1
 }
 
 # Call the function to get the latest commit and assign it
