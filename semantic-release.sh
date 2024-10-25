@@ -21,7 +21,7 @@ get_latest_commit() {
 
     # Loop through commit messages
     while IFS= read -r MESSAGE; do
-      if [[ "$MESSAGE" != Merge* ]]; then
+      if [[ "$MESSAGE" != "Merge"* ]]; then
         # Found a valid commit message
         echo "$MESSAGE"  # Return the valid commit message
         return
