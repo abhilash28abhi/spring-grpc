@@ -23,7 +23,7 @@ get_latest_commit() {
     LATEST_COMMIT=$(echo "$COMMIT_MESSAGES" | head -n 1)
 
     # Check if the last commit is a merge commit
-    if [[ "$LATEST_COMMIT" == Merge* ]]; then
+    if [[ "$LATEST_COMMIT" == "Merge"* ]]; then
       # If it's a merge, get the next commit message
       LATEST_COMMIT=$(echo "$COMMIT_MESSAGES" | tail -n 1)
     fi
