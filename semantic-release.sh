@@ -75,13 +75,11 @@ NEW_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.${VERSION_PARTS[2]}"
 sed -i "s/versionProp=$CURRENT_VERSION/versionProp=$NEW_VERSION/" gradle.properties
 
 # Generate changelog from commit messages
-if git rev-parse --quiet --verify refs/tags/* > /dev/null; then
-  # If there are tags, generate changelog from the latest tag to HEAD
-  CHANGELOG=$(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"* %s" | sed '/^$/d')
-else
-  # If no tags exist, generate changelog from the beginning to HEAD
-  CHANGELOG=$(git log --pretty=format:"* %s" | sed '/^$/d')
+CHANGELOG=$(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"* %s" | sed '/^$/d')
+if [ -z "$CHANGELOG" ]; then
+  CHANGELOG="No changes."
 fi
+# echo "Changelog: $CHANGELOG"
 
 if [ -z "$CHANGELOG" ]; then
   CHANGELOG="No changes."
