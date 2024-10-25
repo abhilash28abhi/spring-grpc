@@ -4,11 +4,32 @@ set -e  # Stop execution on error
 # set -x  # Enable debugging (uncomment for debugging)
 
 # Load the current version from gradle.properties
+if ! grep -q "versionProp=" gradle.properties; then
+  echo "Error: versionProp not found in gradle.properties."
+  exit 1
+fi
+
+# Load the current version from gradle.properties
 CURRENT_VERSION=$(grep "versionProp=" gradle.properties | cut -d'=' -f2)
 # echo "Current Version: $CURRENT_VERSION"
 
 # Parse version into major, minor, and patch components
 IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
+
+# Function to get the last valid commit message
+get_latest_valid_commit_message() {
+  local commit_message
+  commit_message=$(git log --pretty=%B --no-merges -n 1)
+
+  if [ -z "$commit_message" ]; then
+    echo "No valid commit message found."
+    return 1
+  fi
+
+  # Convert to lowercase for case insensitive matching
+  echo "$commit_message" | tr '[:upper:]' '[:lower:]'
+}
+
 
 # Get the latest commit messages, including the last non-merge commit if applicable
 LATEST_COMMIT=$(git log --pretty=%B -n 1)
@@ -20,8 +41,11 @@ echo "Latest Merge Commit Message: $MERGE_COMMIT_MESSAGE"
 
 # Check if the latest commit is a merge commit
 if [[ "$LATEST_COMMIT" == "Merge"* ]]; then
-  # Get the last two commit messages, skipping the merge message
-  LATEST_COMMIT=$(git log --pretty=%B -n 2 | tail -n 1)
+  # Get the last valid non-merge commit message
+  LATEST_COMMIT=$(get_latest_valid_commit_message) || {
+    echo "No valid commit message found after merge."
+    exit 1
+  }
 
   # Debug: print the retrieved commit message after merge check
   echo "Latest Commit after checking for merge: $LATEST_COMMIT"
