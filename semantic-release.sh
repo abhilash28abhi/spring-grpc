@@ -48,7 +48,7 @@ CHANGELOG=$(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"* %
 if [ -z "$CHANGELOG" ]; then
   CHANGELOG="No changes."
 fi
-# echo "Changelog: $CHANGELOG"
+echo "Changelog: $CHANGELOG"
 
 # Commit and tag the new version
 git config user.name "github-actions[bot]"
