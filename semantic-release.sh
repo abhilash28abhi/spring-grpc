@@ -40,7 +40,7 @@ git tag "v$NEW_VERSION"
 git push origin main --tags
 
 # Create a GitHub release
-curl -s -X POST https://api.github.com/repos/${{ github.repository }}/releases \
+curl -s -X POST https://api.github.com/repos/${GITHUB_REPOSITORY}/releases \
   -H "Authorization: token $GITHUB_TOKEN" \
   -H "Content-Type: application/json" \
   -d "{\"tag_name\": \"v$NEW_VERSION\", \"name\": \"v$NEW_VERSION\", \"body\": \"Release $NEW_VERSION\"}"
