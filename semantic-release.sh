@@ -12,32 +12,29 @@ IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
 # Function to get the latest non-merge commit message
 get_latest_commit() {
-  # Get the last two commit messages
-    COMMIT_MESSAGES=$(git log --pretty=%B -n 2)
+  # Get the last commit messages
+    COMMIT_MESSAGES=$(git log --pretty=%B)
 
     # Debug: print recent commit messages
     echo "Recent Commit Messages:"
     echo "$COMMIT_MESSAGES"
 
-    # Get the last commit message
-    LATEST_COMMIT=$(echo "$COMMIT_MESSAGES" | head -n 1)
+    # Loop through commit messages
+    while IFS= read -r MESSAGE; do
+      if [[ "$MESSAGE" != Merge* ]]; then
+        # Found a valid commit message
+        echo "$MESSAGE"  # Return the valid commit message
+        return
+      fi
+    done <<< "$COMMIT_MESSAGES"
 
-    # Check if the last commit is a merge commit
-    if [[ "$LATEST_COMMIT" == "Merge"* ]]; then
-      # If it's a merge, get the next commit message
-      LATEST_COMMIT=$(echo "$COMMIT_MESSAGES" | tail -n 1)
-    fi
-
-    # Debug: print the latest commit
-    echo "Latest Commit: $LATEST_COMMIT"
-    echo "Latest Commit after checking for merge: $LATEST_COMMIT"
-
-    echo "$LATEST_COMMIT"  # Return the latest commit message
+    # If no valid commit message found
+    echo "No valid commit message found. Exiting."
+    exit 1
 }
 
 # Call the function to get the latest commit and assign it
 get_latest_commit $LATEST_COMMIT
-#LATEST_COMMIT=$(  get_latest_commit )
 
 # Check if the latest commit is empty before proceeding
 if [[ -z "$LATEST_COMMIT" ]]; then
