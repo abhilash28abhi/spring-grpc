@@ -40,6 +40,7 @@ get_latest_commit() {
 
 # Call the function to get the latest commit and assign it
 get_latest_commit
+LATEST_COMMIT=$?
 
 # Check if the latest commit is empty before proceeding
 if [[ -z "$LATEST_COMMIT" ]]; then
