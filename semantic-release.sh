@@ -12,6 +12,7 @@ IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
 # Function to get the latest non-merge commit message
 get_latest_commit() {
+  echo "Entering get_latest_commit function"
   # Get the last few commit messages
     commit_messages=$(git log --pretty=%B -n 5)
     echo "Recent Commit Messages:"
@@ -38,7 +39,7 @@ get_latest_commit() {
     # Return the latest valid commit message
     echo "$LATEST_COMMIT"
 }
-echo "calling function"
+
 # Get the latest valid commit message
 LATEST_COMMIT=$(get_latest_commit)
 
