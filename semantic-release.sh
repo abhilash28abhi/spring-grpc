@@ -28,7 +28,7 @@ fi
 NEW_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.${VERSION_PARTS[2]}"
 
 # Update the version in gradle.properties
-sed -i "s/version=$CURRENT_VERSION/versionProp=$NEW_VERSION/" gradle.properties
+sed -i "s/versionProp=$CURRENT_VERSION/versionProp=$NEW_VERSION/" gradle.properties
 
 # Generate changelog from commit messages
 CHANGELOG=$(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"* %s" | sed '/^$/d')
