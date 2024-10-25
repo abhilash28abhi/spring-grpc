@@ -1,15 +1,5 @@
 #!/bin/bash
 
-set -e  # Stop execution on error
-# set -x  # Enable debugging (uncomment for debugging)
-
-# Load the current version from gradle.properties
-CURRENT_VERSION=$(grep "versionProp=" gradle.properties | cut -d'=' -f2)
-# echo "Current Version: $CURRENT_VERSION"
-
-# Parse version into major, minor, and patch components
-IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
-
 # Function to get the latest non-merge commit message
 get_latest_commit() {
     # Retrieve commit messages
@@ -17,7 +7,7 @@ get_latest_commit() {
 
     # Debug: print recent commit messages
     echo "Recent Commit Messages:"
-    echo "$COMMIT_MESSAGES"
+    #echo "$COMMIT_MESSAGES"
 
     # Loop through commit messages
     while IFS= read -r MESSAGE; do
@@ -33,8 +23,18 @@ get_latest_commit() {
     exit 1
 }
 
+set -e  # Stop execution on error
+# set -x  # Enable debugging (uncomment for debugging)
+
+# Load the current version from gradle.properties
+CURRENT_VERSION=$(grep "versionProp=" gradle.properties | cut -d'=' -f2)
+# echo "Current Version: $CURRENT_VERSION"
+
+# Parse version into major, minor, and patch components
+IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
+
 # Call the function to get the latest commit and assign it
-get_latest_commit
+LATEST_COMMIT=$(get_latest_commit)
 
 # Check if the latest commit is empty before proceeding
 if [[ -z "$LATEST_COMMIT" ]]; then
