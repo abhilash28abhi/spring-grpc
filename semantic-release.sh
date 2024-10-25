@@ -12,11 +12,13 @@ IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
 # Get the latest commit message
 LATEST_COMMIT=$(git log -1 --pretty=%B)
+echo "Latest Commit: $LATEST_COMMIT"
 
 # Check if the latest commit is a merge commit
 if [[ "$LATEST_COMMIT" == Merge* ]]; then
   # Get the last two commit messages, ignoring the merge message itself
   LATEST_COMMIT=$(git log --pretty=%B -n 2 | sed -n '2p')
+  echo "Latest Commit after checking for merge: $LATEST_COMMIT"
 fi
 
 echo "Latest Commit: $LATEST_COMMIT"
