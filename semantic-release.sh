@@ -12,7 +12,7 @@ IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
 
 # Get the latest commit message
 LATEST_COMMIT=$(git log -1 --pretty=%B)
-echo "Latest Commit: $LATEST_COMMIT"
+# echo "Latest Commit: $LATEST_COMMIT"
 
 # Convert the latest commit message to lower case for case insensitive matching
 LATEST_COMMIT_LOWER=$(echo "$LATEST_COMMIT" | tr '[:upper:]' '[:lower:]')
@@ -44,11 +44,18 @@ NEW_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.${VERSION_PARTS[2]}"
 sed -i "s/versionProp=$CURRENT_VERSION/versionProp=$NEW_VERSION/" gradle.properties
 
 # Generate changelog from commit messages
-CHANGELOG=$(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"* %s" | sed '/^$/d')
+if git rev-parse --quiet --verify refs/tags/* > /dev/null; then
+  # If there are tags, generate changelog from the latest tag to HEAD
+  CHANGELOG=$(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"* %s" | sed '/^$/d')
+else
+  # If no tags exist, generate changelog from the beginning to HEAD
+  CHANGELOG=$(git log --pretty=format:"* %s" | sed '/^$/d')
+fi
+
 if [ -z "$CHANGELOG" ]; then
   CHANGELOG="No changes."
 fi
-echo "Changelog: $CHANGELOG"
+echo "Changelog: $CHANGELOG"  # Debug: Show changelog
 
 # Commit and tag the new version
 git config user.name "github-actions[bot]"
