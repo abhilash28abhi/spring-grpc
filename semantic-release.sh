@@ -15,7 +15,7 @@ get_latest_commit() {
     # Retrieve commit messages
     COMMIT_MESSAGES=$(git log --pretty=%B -n 10)  # Get the last 10 commit messages
     # Debug: print the number of recent commit messages
-    echo "Total Recent Commit Messages: $(echo "$COMMIT_MESSAGES" | wc -l)"
+    #echo "Total Recent Commit Messages: $(echo "$COMMIT_MESSAGES" | wc -l)"
 
     # Debug: print recent commit messages
     #echo "Recent Commit Messages:"
