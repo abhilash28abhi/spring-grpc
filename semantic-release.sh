@@ -17,7 +17,7 @@ if [[ "$LATEST_COMMIT" == Merge* ]]; then
   # Get the first non-merge commit message
   LATEST_COMMIT=$(git log --pretty=%B -n 2 | tail -n +2 | head -n 1)
 fi
-# echo "Latest Commit: $LATEST_COMMIT"
+echo "Latest Commit: $LATEST_COMMIT"
 
 # Convert the latest commit message to lower case for case insensitive matching
 LATEST_COMMIT_LOWER=$(echo "$LATEST_COMMIT" | tr '[:upper:]' '[:lower:]')
@@ -60,7 +60,7 @@ fi
 if [ -z "$CHANGELOG" ]; then
   CHANGELOG="No changes."
 fi
-echo "Changelog: $CHANGELOG"  # Debug: Show changelog
+#echo "Changelog: $CHANGELOG"  # Debug: Show changelog
 
 # Commit and tag the new version
 git config user.name "github-actions[bot]"
