@@ -1,3 +1,10 @@
+# [7.9.0](https://github.com/abhilash28abhi/spring-grpc/compare/v7.8.4...v7.9.0) (2024-10-30)
+
+
+### Features
+
+* new commit ([baccc3f](https://github.com/abhilash28abhi/spring-grpc/commit/baccc3f85183296c473b777657f6a54280859b96))
+
 ## [7.8.4](https://github.com/abhilash28abhi/spring-grpc/compare/v7.8.3...v7.8.4) (2024-10-30)
 
 
