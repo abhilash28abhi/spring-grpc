@@ -1,3 +1,10 @@
+## [7.8.4](https://github.com/abhilash28abhi/spring-grpc/compare/v7.8.3...v7.8.4) (2024-10-30)
+
+
+### Bug Fixes
+
+* test commit ([890448c](https://github.com/abhilash28abhi/spring-grpc/commit/890448c159aea794b0d4a3298eafb7313500e0fe))
+
 ## [7.8.3](https://github.com/abhilash28abhi/spring-grpc/compare/v7.8.2...v7.8.3) (2024-10-30)
 
 
