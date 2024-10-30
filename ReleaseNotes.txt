@@ -1,3 +1,10 @@
+## [7.8.3](https://github.com/abhilash28abhi/spring-grpc/compare/v7.8.2...v7.8.3) (2024-10-30)
+
+
+### Bug Fixes
+
+* added the action back ([b38910a](https://github.com/abhilash28abhi/spring-grpc/commit/b38910a5ef1a72c7471e339bfdfe8d7c1ea675bd))
+
 ## [3.2.1](https://github.com/abhilash28abhi/spring-grpc/compare/v3.2.0...v3.2.1) (2024-10-24)
 
 
