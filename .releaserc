@@ -1,0 +1,44 @@
+{
+
+  "branches": [
+
+    "main"
+
+  ],
+
+  "plugins": [
+
+    "@semantic-release/commit-analyzer",
+
+    "@semantic-release/release-notes-generator",
+
+    [
+
+      "@semantic-release/changelog",
+
+      {
+
+        "changelogFile": "ReleaseNotes.txt"
+
+      }
+
+    ],
+
+    [
+
+      "@semantic-release/git",
+
+      {
+
+        "assets": [
+
+          "ReleaseNotes.txt"
+
+        ]
+
+      }
+
+    ],
+    "@semantic-release/github"
+    ]
+}

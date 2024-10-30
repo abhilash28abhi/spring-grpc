@@ -13,16 +13,8 @@ jobs:
       # Step 1: Checkout the code from the repository
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 10
 
-      # Step 2: Grant execute permission to the script
-      - name: Make script executable
-        run: chmod +x semantic-release.sh
-
-      # Step 3: Run the semantic release script
-      - name: Run Semantic Release Script
-        run: ./semantic-release.sh
+      - name: Run Semantic Release
+        uses: cycjimmy/semantic-release-action@v4.1.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
