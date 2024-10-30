@@ -1,3 +1,10 @@
+## [7.11.1](https://github.com/abhilash28abhi/spring-grpc/compare/v7.11.0...v7.11.1) (2024-10-30)
+
+
+### Bug Fixes
+
+* test commit ([38c02d3](https://github.com/abhilash28abhi/spring-grpc/commit/38c02d3b21fe123125333c943efdaa7cc4326eb8))
+
 # [7.11.0](https://github.com/abhilash28abhi/spring-grpc/compare/v7.10.0...v7.11.0) (2024-10-30)
 
 
